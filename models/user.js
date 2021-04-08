@@ -10,6 +10,16 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      user.belongsToMany(models.user, {
+        through: "doctorPatients",
+        foreignKey: "doctorId",
+        as: "patients",
+      });
+      user.belongsToMany(models.user, {
+        through: "doctorPatients",
+        foreignKey: "patientId",
+        as: "doctor",
+      });
     }
   }
   user.init(
@@ -26,6 +36,9 @@ module.exports = (sequelize, DataTypes) => {
       password: {
         type: DataTypes.STRING,
         allowNull: false,
+      },
+      isNutritionist: {
+        type: DataTypes.BOOLEAN,
       },
     },
     {
